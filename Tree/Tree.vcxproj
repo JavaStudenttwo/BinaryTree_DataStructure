@@ -110,10 +110,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BinaryTree_test.h" />
     <ClInclude Include="BinaryTreeNode.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="LinkedQueueNode.h" />
+    <ClInclude Include="GeneralTree.h" />
+    <ClInclude Include="GeneralTreeNode.h" />
+    <ClInclude Include="dsexceptions.h" />
+    <ClInclude Include="BinaryTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestBinaryTree.cpp" />

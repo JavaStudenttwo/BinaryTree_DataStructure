@@ -11,8 +11,7 @@ int main() {
 		tree.Insert(init[i]);
 	}
 	tree.Print();
-	tree.LevelOrder();
-	tree.Print();
+
 	cin.get();
 	return 0;
 }

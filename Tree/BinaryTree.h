@@ -6,118 +6,93 @@ template<typename Type>
 class BinaryTree
 {
 public:
-	BinaryTree() :proot(nullptr),pcurrent(nullptr){}
-
+	BinaryTree() :proot(nullptr), pcurrent(nullptr) {}
+	//设置和获取当前结点
 	BinaryTreeNode<Type> *GetCurrent() {
-		return pcurrent;
+		return this->pcurrent;
 	}
 	void SetCurrent(BinaryTreeNode<Type> *current) {
-		pcurrent = current;
+		this->pcurrent = current;
 	}
-	bool Insert(Type item);
+	void Insert(Type item);
 	void Print();
 	void LevelOrder(BinaryTreeNode<Type> *proot);
 	void LevelOrder();
 
+	BinaryTreeNode<Type> *Parent(BinaryTreeNode<Type> *current);
+
 private:
+	//私有属性
 	BinaryTreeNode<Type> *proot, *pcurrent;
 	bool Find(BinaryTreeNode<Type> *root, Type item);
 	bool Remove(BinaryTreeNode<Type> *root, Type item);
-
+	//私有方法
+	void Insert(Type item, BinaryTreeNode<Type> *node);
 	BinaryTreeNode<Type> *Parent(BinaryTreeNode<Type> *root, BinaryTreeNode<Type> *current);
-	void Print(BinaryTreeNode<Type> *start, int i = 0);
-	
+	void Print(BinaryTreeNode<Type> *start);
+
 };
 
-template<typename Type> 
-bool BinaryTree<Type>::Insert(Type item) {
-	BinaryTreeNode<Type> *pnode = new BinaryTreeNode<Type>(item);
-	//没有正确的创建新结点
-	if (pnode == nullptr){
-		cout << "插入数据出错" << endl;
-		exit(1);
-	}
-	//若二叉树为空，则设置插入结点为根节点
-	if (proot == nullptr){
-		proot = pnode;
-		pcurrent = proot;
-		return 1;
-	}
-	//
+//供外部调用的插入方法
+template<typename Type>
+void BinaryTree<Type>::Insert(Type item) {
 	if (pcurrent == nullptr) {
-		cout << "树内部出错" << endl;
-		exit(1);
+		BinaryTreeNode<Type> *newnode = new BinaryTreeNode<Type>(item, nullptr, nullptr);
+		proot = newnode;
+		Insert(item, newnode);
 	}
-	//
-	if (pcurrent->pfirst == nullptr){
-		pcurrent->pfirst = pnode;
-		pcurrent = pnode;
-		return true;
+	else {
+		Insert(item, pcurrent);
 	}
-	BinaryTreeNode<Type> *pmove = pcurrent->pfirst;
-	while (pmove->pnext){
-		pmove = pmove->pnext;
-	}
-	pmove->pnext = pnode;
-	pcurrent = pnode;
-	return true;
-
 }
 
+//插入方法内部实现
+template<typename Type>
+void BinaryTree<Type>::Insert(Type item, BinaryTreeNode<Type> *node) {
+	//如果待插入数据小于当前结点数据，则插入到左结点
+	if (item < node->data)
+		//递归调用插入方法
+		Insert(item, node->pfirst);
+	//如果待插入数据小于当前结点数据，则插入到右结点
+	else if (node->data < item)
+		Insert(item, node->pnext);
+	else
+		;
+}
+
+//打印方法，供外部调用
 template<typename Type>
 void BinaryTree<Type>::Print() {
 	Print(proot);
 }
 
+//内部打印方法实现
+template<typename Type>
+void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start) {
+	if (start != nullptr) {
+		Print(start->pfirst);
+		cout << start->data << endl;
+		Print(start->pnext);
+	}
+}
+
 template<typename Type>
 void BinaryTree<Type>::LevelOrder(BinaryTreeNode<Type> *proot) {
-	LinkedQueue<BinaryTreeNode<Type> *> queue;
-	BinaryTreeNode<Type> *pmove, *ptemp;
-	if (proot != nullptr){
-		queue.Enqueue(proot);
-		while (!queue.IsEmpty()){
-			ptemp = queue.Dequeue();
-			cout << ptemp->data;
-			pmove = ptemp->pfirst;
-			while (pmove){
-				queue.Enqueue(pmove);
-				pmove = pmove->pnext;
-			}
-		}
-	}
+
 }
 
 template<typename Type>
 void BinaryTree<Type>::LevelOrder() {
-	LevelOrder(proot);
+
 }
 
 template<typename Type>
-void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start, int i = 0) {
-	if (start == nullptr){
-		for (int j = 0; j < i; j++) {
-			cout << "     ";
-		}
-		cout << "NULL" << endl;
-		return;
-	}
-	BinaryTreeNode<Type> *pmove = start->pfirst;
-	Print(pmove, i + 1);
-
-	for (int j = 0; j < i; j++) {
-		cout << "     ";
-	}
-	cout << start->data << "--->" << endl;
-
-	if (NULL == pmove) {
-		return;
-	}
-	pmove = pmove->pnext;
-	while (pmove)
-	{
-		Print(pmove, i + 1);
-		pmove = pmove->pnext;
-	}
+BinaryTreeNode<Type> * BinaryTree<Type>::Parent(BinaryTreeNode<Type> *current) {
+	return nullptr;
 }
-
+//私有方法
+template<typename Type>
+BinaryTreeNode<Type> * BinaryTree<Type>::Parent(BinaryTreeNode<Type> *root, BinaryTreeNode<Type> *current) {
+	return nullptr;
+}
 
