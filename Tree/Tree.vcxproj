@@ -111,8 +111,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h" />
-    <ClInclude Include="BinaryTree_test.h" />
     <ClInclude Include="BinaryTreeNode.h" />
+    <ClInclude Include="BinaryTree_test.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="LinkedQueueNode.h" />
     <ClInclude Include="GeneralTree.h" />

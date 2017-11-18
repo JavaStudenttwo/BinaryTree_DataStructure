@@ -6,7 +6,7 @@ template<typename Type>
 class BinaryTree
 {
 public:
-	BinaryTree() :proot(nullptr),pcurrent(nullptr){}
+	BinaryTree() :proot(nullptr), pcurrent(nullptr) {}
 	//设置和获取当前结点
 	BinaryTreeNode<Type> *GetCurrent() {
 		return this->pcurrent;
@@ -29,20 +29,20 @@ private:
 	//私有方法
 	BinaryTreeNode<Type> *Parent(BinaryTreeNode<Type> *root, BinaryTreeNode<Type> *current);
 	void Print(BinaryTreeNode<Type> *start, int i = 0);
-	
+
 };
 
 //插入方法
-template<typename Type> 
+template<typename Type>
 bool BinaryTree<Type>::Insert_test1(Type item) {
 	BinaryTreeNode<Type> *pnode = new BinaryTreeNode<Type>(item);
 	//没有正确的创建新结点
-	if (pnode == nullptr){
+	if (pnode == nullptr) {
 		cout << "插入数据出错" << endl;
 		exit(1);
 	}
 	//若二叉树为空，则设置插入结点为根节点
-	if (proot == nullptr){
+	if (proot == nullptr) {
 		proot = pnode;
 		this->pcurrent = proot;
 		return 1;
@@ -53,7 +53,7 @@ bool BinaryTree<Type>::Insert_test1(Type item) {
 		exit(1);
 	}
 	//first结点为空，则直接赋值给first结点
-	if (this->pcurrent->pfirst == nullptr){
+	if (this->pcurrent->pfirst == nullptr) {
 		this->pcurrent->pfirst = pnode;
 		this->pcurrent = pnode;
 		return true;
@@ -61,7 +61,7 @@ bool BinaryTree<Type>::Insert_test1(Type item) {
 	//first结点不为空，first结点的first结点
 	BinaryTreeNode<Type> *pmove = this->pcurrent->pfirst;
 	//在这一结点中遍历next下一结点
-	while (pmove->pnext){
+	while (pmove->pnext) {
 		pmove = pmove->pnext;
 	}
 	pmove->pnext = pnode;
@@ -81,13 +81,13 @@ template<typename Type>
 void BinaryTree<Type>::LevelOrder(BinaryTreeNode<Type> *proot) {
 	LinkedQueue<BinaryTreeNode<Type> *> queue;
 	BinaryTreeNode<Type> *pmove, *ptemp;
-	if (proot != nullptr){
+	if (proot != nullptr) {
 		queue.Enqueue(proot);
-		while (!queue.IsEmpty()){
+		while (!queue.IsEmpty()) {
 			ptemp = queue.Dequeue();
 			cout << ptemp->data;
 			pmove = ptemp->pfirst;
-			while (pmove){
+			while (pmove) {
 				queue.Enqueue(pmove);
 				pmove = pmove->pnext;
 			}
@@ -102,28 +102,28 @@ void BinaryTree<Type>::LevelOrder() {
 
 template<typename Type>
 BinaryTreeNode<Type> * BinaryTree<Type>::Parent(BinaryTreeNode<Type> *current) {
-	return Parent(this->proot,current);
+	return Parent(this->proot, current);
 }
 //私有方法
 template<typename Type>
 BinaryTreeNode<Type> * BinaryTree<Type>::Parent(BinaryTreeNode<Type> *root, BinaryTreeNode<Type> *current) {
-	if (root == nullptr){
+	if (root == nullptr) {
 		return nullptr;
 	}
 	BinaryTreeNode<Type> *pmove = current->pfirst;
 	BinaryTreeNode<Type> *temp;
-	if (pmove != nullptr){
+	if (pmove != nullptr) {
 		while (pmove) {
-			if (pmove == current){
+			if (pmove == current) {
 				return root;
 			}
 			pmove = pmove->pnext;
 		}
 	}
 	pmove = root->pfirst;
-	while (pmove){
-		temp = Parent(pmove,current);
-		if (temp){
+	while (pmove) {
+		temp = Parent(pmove, current);
+		if (temp) {
 			return temp;
 		}
 		pmove = pmove->pnext;
@@ -135,7 +135,7 @@ BinaryTreeNode<Type> * BinaryTree<Type>::Parent(BinaryTreeNode<Type> *root, Bina
 template<typename Type>
 void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start, int i = 0) {
 	//起始结点为空
-	if (start == nullptr){
+	if (start == nullptr) {
 		for (int j = 0; j < i; j++) {
 			cout << "     ";
 		}

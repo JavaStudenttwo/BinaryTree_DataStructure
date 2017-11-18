@@ -16,6 +16,9 @@
     <Filter Include="头文件\EDU_WEB">
       <UniqueIdentifier>{d0a8e6c7-ed69-4ab1-9826-0bc9bea49d54}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\Test">
+      <UniqueIdentifier>{39b9c505-4dc9-4126-81ac-6404155951d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTreeNode.h">
@@ -33,9 +36,6 @@
     <ClInclude Include="GeneralTreeNode.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="BinaryTree_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="BinarySearchTree.h">
       <Filter>头文件\EDU_WEB</Filter>
     </ClInclude>
@@ -44,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="BinaryTree.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BinaryTree_test.h">
+      <Filter>头文件\Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
