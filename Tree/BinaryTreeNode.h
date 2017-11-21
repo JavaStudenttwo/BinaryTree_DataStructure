@@ -6,11 +6,16 @@ class BinaryTreeNode{
 public:
 	friend class BinaryTree<Type>;
 
-private:
-	BinaryTreeNode() :pleft(nullptr), pright(nullptr){}
-	BinaryTreeNode(Type item, BinaryTreeNode<Type> *left = nullptr, BinaryTreeNode<Type> *right = nullptr)
-		:data(item),pleft(left), pright(right){}
+	Type GetData() {
+		return this->data;
+	}
 
+	BinaryTreeNode() :pleft(nullptr), pright(nullptr) {}
+	BinaryTreeNode(Type item, BinaryTreeNode<Type> *left = nullptr, BinaryTreeNode<Type> *right = nullptr)
+		:data(item), pleft(left), pright(right) {}
+
+
+private:
 	Type data;
 	BinaryTreeNode<Type> *pleft;
 	BinaryTreeNode<Type> *pright;

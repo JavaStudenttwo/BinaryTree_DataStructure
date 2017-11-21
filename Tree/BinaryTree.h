@@ -15,55 +15,78 @@ public:
 	void SetCurrent(BinaryTreeNode<Type> *current) {
 		this->pcurrent = current;
 	}
+	LinkedQueue<BinaryTreeNode<Type> *> *GetLevelQueue() {
+		return this->levelQueue;
+	}
+	LinkedQueue<BinaryTreeNode<Type> *> *GetPreQueue() {
+		return this->preQueue;
+	}
+	LinkedQueue<BinaryTreeNode<Type> *> *GetPostQueue() {
+		return this->postQueue;
+	}
 	//一般方法，外部调用
 	void Insert(Type item);
 	void InsertAndSort(Type item);
 	void Print();
-	void LevelOrder(BinaryTreeNode<Type> *proot);
-	void LevelOrder();
-
-	
+	LinkedQueue<BinaryTreeNode<Type> *> *LevelOrder();
+	LinkedQueue<BinaryTreeNode<Type> *> *PreOrder();
+	LinkedQueue<BinaryTreeNode<Type> *> *PostOrder();
 
 private:
 	//私有属性
 	BinaryTreeNode<Type> *proot;
 	BinaryTreeNode<Type> *pcurrent;
+	LinkedQueue<BinaryTreeNode<Type> *> *levelQueue;
+	LinkedQueue<BinaryTreeNode<Type> *> *preQueue;
+	LinkedQueue<BinaryTreeNode<Type> *> *postQueue;
 	//私有方法
 	bool Find(BinaryTreeNode<Type> *root, Type item);
 	bool Remove(BinaryTreeNode<Type> *root, Type item);
 	//私有辅助功能方法
 	void Insert(BinaryTreeNode<Type> *newnode, BinaryTreeNode<Type> *node);
-	void InsertAndSort(Type item, BinaryTreeNode<Type> *node);
+	void InsertAndSort(BinaryTreeNode<Type> *newnode, BinaryTreeNode<Type> *node);
 	void Print(BinaryTreeNode<Type> *start);
-	void Print_1(BinaryTreeNode<Type> *start, int n = 0);
+	void Print(BinaryTreeNode<Type> *start, int n);
+	void LevelOrder(BinaryTreeNode<Type> *root);
+	void PreOrder(BinaryTreeNode<Type> *root);
+	void PostOrder(BinaryTreeNode<Type> *root);
 	
 };
 
 //供外部调用的插入方法
 template<typename Type>
 void BinaryTree<Type>::InsertAndSort(Type item) {
-	if (pcurrent == nullptr) {
-		BinaryTreeNode<Type> *newnode = new BinaryTreeNode<Type>(item, nullptr, nullptr);
+	BinaryTreeNode<Type> *newnode = new BinaryTreeNode<Type>(item, nullptr, nullptr);
+	if (proot == nullptr) {
 		proot = newnode;
-		InsertAndSort(item, newnode);
 	}
 	else {
-		InsertAndSort(item, pcurrent);
+		InsertAndSort(newnode, proot);
 	}
 }
 
 //插入方法内部实现
 template<typename Type>
-void BinaryTree<Type>::InsertAndSort(Type item, BinaryTreeNode<Type> *node) {
-	//如果待插入数据小于当前结点数据，则插入到左结点
-	if (item < node->data)
-		//递归调用插入方法
-		InsertAndSort(item, node->pleft);
-	//如果待插入数据小于当前结点数据，则插入到右结点
-	else if (node->data < item)
-		InsertAndSort(item, node->pright);
-	else
-		;
+void BinaryTree<Type>::InsertAndSort(BinaryTreeNode<Type> *newnode, BinaryTreeNode<Type> *node) {
+	
+	if(node->data > newnode->data) {
+		if (node->pleft == nullptr) {
+			node->pleft = newnode;
+			newnode->pparent = node;
+			pcurrent = node;
+			return;
+		}
+		InsertAndSort(newnode, node->pleft);
+	}
+	else if(node->data < newnode->data) {
+		if (node->pright == nullptr) {
+			node->pright = newnode;
+			newnode->pparent = node;
+			pcurrent = node;
+			return;
+		}
+		InsertAndSort(newnode, node->pright);
+	}
 }
 
 //供外部调用的插入方法
@@ -104,20 +127,9 @@ void BinaryTree<Type>::Print() {
 		cout << "二叉树为空" << endl;
 	}
 	else {
-		Print(proot);
+		Print(proot,0);
 	}
 }
-
-/*
-template<typename Type>
-void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start) {
-if (start != nullptr){
-Print(start->pleft);
-cout << start->data << endl;
-Print(start->pright);
-}
-}
-*/
 
 template<typename Type>
 void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start) {
@@ -130,45 +142,108 @@ void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start) {
 
 //内部打印方法实现
 template<typename Type>
-void BinaryTree<Type>::Print_1(BinaryTreeNode<Type> *start, int n = 0) {
-	if (NULL == start)
-	{
+void BinaryTree<Type>::Print(BinaryTreeNode<Type> *start, int n) {
+	//打印空值nullptr
+	if (nullptr == start){
 		for (int i = 0; i < n; i++)
 		{
-			cout << "     ";
+			cout << "		";
 		}
-		cout << "NULL" << endl;
+		cout << "--->" << "nullptr" << endl;
 		return;
 	}
+	//递归打印左结点
 	BinaryTreeNode<Type> *pmove = start->pleft;
 	Print(pmove, n + 1);
-
+	//打印结点数据（结点不为空）
 	for (int i = 0; i < n; i++) {
-		cout << "     ";
+		cout << "		";
 	}
-	cout << start->data << "--->" << endl;
-
-	if (NULL == pmove) {
+	
+	cout << "--->" << start->data;
+	if (start->pparent != nullptr) {
+		cout << "(" << start->pparent->data << "的子结点)" << endl;
+	}
+	//递归打印右结点
+	pmove = start->pright;
+	//若右结点为空
+	if (nullptr == pmove) {
+		for (int i = 0; i <= n; i++)
+		{
+			cout << "		";
+		}
+		cout << "--->" << "nullptr" << endl;
 		return;
 	}
-	pmove = pmove->pright;
-	while (pmove)
-	{
+	while (pmove){
 		Print(pmove, n + 1);
 		pmove = pmove->pright;
 	}
-	
-	
+}
+
+//中序遍历
+template<typename Type>
+LinkedQueue<BinaryTreeNode<Type> *> *BinaryTree<Type>::LevelOrder() {
+	levelQueue = new LinkedQueue<BinaryTreeNode<Type> *>();
+	LevelOrder(proot);
+	return levelQueue;
 }
 
 template<typename Type>
-void BinaryTree<Type>::LevelOrder(BinaryTreeNode<Type> *proot) {
+void BinaryTree<Type>::LevelOrder(BinaryTreeNode<Type> *root) {
+	if (root != nullptr) {
+		levelQueue->Enqueue(root);
+		if (root->pleft != nullptr) {
+			LevelOrder(root->pleft);
+		}
+		if (root->pright != nullptr) {
+			LevelOrder(root->pright);
+		}
+	}
+}
 
+//先序遍历
+template<typename Type>
+LinkedQueue<BinaryTreeNode<Type> *> *BinaryTree<Type>::PreOrder() {
+	preQueue = new LinkedQueue<BinaryTreeNode<Type> *>();
+	PreOrder(proot);
+	return preQueue;
 }
 
 template<typename Type>
-void BinaryTree<Type>::LevelOrder() {
-
+void BinaryTree<Type>::PreOrder(BinaryTreeNode<Type> *root) {
+	if (root != nullptr) {
+		if (root->pleft != nullptr) {
+			PreOrder(root->pleft);
+		}
+		preQueue->Enqueue(root);
+		if (root->pright != nullptr) {
+			PreOrder(root->pright);
+		}
+	}
 }
+
+//后序遍历
+template<typename Type>
+LinkedQueue<BinaryTreeNode<Type> *> *BinaryTree<Type>::PostOrder() {
+	postQueue = new LinkedQueue<BinaryTreeNode<Type> *>();
+	PostOrder(proot);
+	return postQueue;
+}
+
+template<typename Type>
+void BinaryTree<Type>::PostOrder(BinaryTreeNode<Type> *root) {
+	if (root != nullptr) {
+		if (root->pright != nullptr) {
+			PostOrder(root->pright);
+		}
+		postQueue->Enqueue(root);
+		if (root->pleft != nullptr) {
+			PostOrder(root->pleft);
+		}
+		
+	}
+}
+
 
 

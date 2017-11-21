@@ -30,12 +30,6 @@
     <ClInclude Include="LinkedQueueNode.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="GeneralTree.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneralTreeNode.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="BinarySearchTree.h">
       <Filter>头文件\EDU_WEB</Filter>
     </ClInclude>

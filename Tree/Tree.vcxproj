@@ -22,6 +22,7 @@
     <ProjectGuid>{92B65937-A9D4-440F-8E60-A17F46F1C747}</ProjectGuid>
     <RootNamespace>Tree</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>BinaryTree</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -115,8 +116,6 @@
     <ClInclude Include="BinaryTree_test.h" />
     <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="LinkedQueueNode.h" />
-    <ClInclude Include="GeneralTree.h" />
-    <ClInclude Include="GeneralTreeNode.h" />
     <ClInclude Include="dsexceptions.h" />
     <ClInclude Include="BinaryTree.h" />
   </ItemGroup>
